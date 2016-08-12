@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>InsureAssist</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<!--
+  			<link rel="shortcut icon" href="images/favicon.png">
+  			<link rel="apple-touch-icon" href="images/apple-touch-icon.png"> 
+  		-->
+<link href="jqueryMobile/jquery.mobile-1.4.5.min.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script
+	src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<script>
+
+function captureImage(){
+navigator.camera.getPicture(getPictureSuccess, getPictureFail, { quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI });
+            
+}
+
+function getPictureSuccess(imageURI){
+	WL.Logger.info("getPicture success "+imageURI);
+       document.getElementById("imageCam").src=imageURI;
+}
+
+function  getPictureFail(){
+        WL.Logger.error("getPicture failed");
+    }
+
+function callVehicles(){
+	try{
+		WL.Logger.info("adapter is invoked");
+          var invocationData = {
+                  adapter : 'SmartClaimAdapter',
+                  procedure : 'getSmartClaimGetVehicles',
+                  parameters : []
+              };
+
+          WL.Client.invokeProcedure(invocationData,{
+              onSuccess : getVehiclesSuccess,
+              onFailure : getVehiclesFailure,
+          });
+	
+	}
+	catch(e){
+	WL.Logger.info("failure response"+e);
+	}
+}
+function getVehiclesSuccess(result){
+WL.Logger.info("success response for array"+result);
+	var responseText=result['responseText'];
+	WL.Logger.info("success response for array"+responseText);
+	var responseText = responseText.replace("/*-secure-","");
+	var responseText = responseText.replace("*/","");
+	var responseText = JSON.parse(responseText);
+	WL.Logger.info("success response for array22"+responseText);
+	vehiclesList = responseText['array'];
+	WL.Logger.info("success response for array234"+vehiclesList.length);
+}
+
+function getVehiclesFailure(){
+	WL.Logger.info("failure response");
+}
+</script>
+
+</head>
+
+<body>
+	
+	<div id="SmartClaimDetailsWrapper" align="left" data-inline="true" style="padding-left: 5px; padding-right: 10px;">
+		<div data-role="header" id="header" align="center" style="background-color: #0088b8">
+			<h1 id="smartClaimHeaderString">SmartClaim</h1>
+		</div>
+		  <div data-role="content">
+		<form>
+	    <div data-role="fieldcontain">
+		    <label for="flip-1" style="display: inline; left: auto;">Were there any injuries</label>
+		    <select name="flip-1" id="flip-1" data-role="flipswitch" data-theme="b" style="right: auto;">
+		        <option value="on">no</option>
+		        <option value="off">yes</option>
+		    </select>
+		    </div>
+		    <label for="flip-2"  style="display: inline; left: auto;">More than one Vehicle</label>
+		    <select name="flip-2" id="flip-2" data-role="flipswitch" data-theme="b" data-role="flipswitch" data-theme="b" style="right: auto;">
+		        <option value="on">no</option>
+		        <option value="off">yes</option>
+		    </select>
+		    <select id="vehicle" style="background-color: #0088b8">
+				<option>select vehicle</option>
+			</select> 
+			<label>Driver Involved: Oliver Glider</label>
+			
+			<input type="button" onclick="captureImage()" value="Damage Details: "/>
+			
+			
+			<label>Damage Details: </label>
+			
+			<label>Other Driver's License: </label>
+			 <label for="flip-3"  style="display: inline; left: auto;">Do you need a tow truck?</label>
+			 <select name="flip-3" id="flip-3" data-role="flipswitch" data-theme="b" data-role="flipswitch" data-theme="b" style="right: auto;">
+		        <option value="on">no</option>
+		        <option value="off">yes</option>
+		    </select>
+			<label style="display: inline; left: auto;">Witness</label>
+			<a data-role="button" data-icon="plus" style="display: inline; right: auto; margin-left: 50px;"></a>
+			<input type="button" value="Cancel" onclick="" style="display: inline; left: auto; background-color: #0088b8">
+			<input type="button" value="Submit" onclick="inquireClaim()" style="display: inline; right: auto; background-color: #0088b8">
+		</form>
+		
+	</div>
+	<div data-role="footer" data-position="fixed" data-theme="b" align="left">
+		<figure>
+			<a href=""><img class="footer-img" alt="footer"
+				src="images/footer.png"></a>
+			<figcaption>www.myinsurance.com</figcaption>
+		</figure>
+	</div>
+</div>
+	
+	
+
+</body>
+</html>
