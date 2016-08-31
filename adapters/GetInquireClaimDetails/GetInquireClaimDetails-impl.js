@@ -48,12 +48,12 @@ function getInquireClaimHTTPAdapters() {
 
 
 
-function addGetInquireClaimDetail(param1) {
+function getVehicleDetails() {
 	
 	var input = {
-	    method : 'put',
-	    returnedContentType : 'json',
-	    path : 'userInputRequired'
+	    method : 'get',
+	    returnedContentType : 'application/json',
+	    path : 'api/getQuoteByEmail/madhurya.malladi@gmail.com' 
 	};
 	
 	
