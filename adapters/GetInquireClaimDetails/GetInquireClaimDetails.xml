@@ -25,7 +25,7 @@
 
 
 	<procedure name="getInquireClaimHTTPAdapters"> </procedure>
-	<procedure name="addGetInquireClaimDetail"> </procedure>
+	<procedure name="getVehicleDetails"> </procedure>
 	<procedure name="updateGetInquireClaimDetail"> </procedure>
 	<procedure name="deleteGetInquireClaimDetail"> </procedure>
 	
